@@ -6,7 +6,7 @@
 * Cash Register
 This program implements a simple cash register-style application in Java.
 ** How to Build
-Make sure you have the submodules, then run ~gradle build~ to compile the application. The build outputs are under the ~build/~ directory. If you do not have gradle, you can use the ~gradle~ or ~gradle.bat~ scripts (depending on your platform) to execute the builtin gradle implementation.
+Make sure you have the submodules, then run ~gradle build~ to compile the application. The build outputs are under the ~build/~ directory. If you do not have gradle, you can use the ~gradlew~ or ~gradlew.bat~ scripts (depending on your platform) to execute the builtin gradle implementation.
 ** How to Run
 The easiest way is to run ~gradle run~ in the main directory. If you need a packaged version, look in the ~build/distributions~ directory. Jars are in ~build/libs~ and classes in ~build/classes~.
 ** How to Edit
