@@ -1,0 +1,19 @@
+Go buy a cash register
+Turn on said cash register
+Display menu screen and prompt with choices
+Choice one is to enter a transaction
+Choice two ends the program and displays thank you message.
+If the user chooses choice two then display thank you message and end the program
+If the user chooses choice one then prompt the user with how much the price of the item he or she is getting
+After price amount has been input then prompt the user with the question of the quantity of the item.(price amount must be a rational number)
+After quantity then ask the user whether the item is taxable or nontaxable.(T for taxable N Nontaxable)
+Prompt the user with question of whether or not he or she would like to continue the order.
+If yes then repeat the process starting at entering the price amount.
+If no then display the subtotal of the order
+Display the grand total.
+Display the price of the order to the user
+Ask the user to enter the amount of cash given to the "cashier"
+If the amount given is not enough then prompt the user with the price of the order that is left.
+If the amount paid is equal to the amount due then display that there is no change due.
+If the amount given is greater than the amount due then display the amount of change the user is due.
+After the order is complete repeat the process by starting at if the user would like to enter a transaction or not.
