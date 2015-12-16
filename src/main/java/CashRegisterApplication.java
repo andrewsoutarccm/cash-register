@@ -1,47 +1,33 @@
 
-import com.andrewsoutar.cmp128.Utilities;
-import com.andrewsoutar.cmp128.Utilities.GenericScanner;
-import com.andrewsoutar.cmp128.Utilities.MenuAction;
-import com.andrewsoutar.cmp128.Utilities.VoidFunction;
+import        com.andrewsoutar.cmp128.Utilities.BasicMenuAction;
+import        com.andrewsoutar.cmp128.Utilities.VoidFunction;
+import static com.andrewsoutar.cmp128.Utilities.exitAction;
+import static com.andrewsoutar.cmp128.Utilities.mainLoop;
+import static com.andrewsoutar.cmp128.Utilities.printBordered;
 
 public class CashRegisterApplication {
-    private GenericScanner kbdScanner;
+    private final ProductDatabase db;
 
-    public CashRegisterApplication (GenericScanner kbdScanner) {
-        this.kbdScanner = kbdScanner;
+    public CashRegisterApplication (ProductDatabase db) {
+        this.db = db;
     }
 
     public void run () {
-        Utilities.mainLoop (kbdScanner, new VoidFunction () {
+        mainLoop (Prompt.kbdScanner, new VoidFunction () {
                 public void call () {
-                    Utilities.printBordered (new String [] {
+                    printBordered (new String [] {
                             "WELCOME TO THE CASH REGISTER APPLICATION!"
                         });
                 }
-            }, new MenuAction [] {
-                new MenuAction () {
-                    public String getName () {
-                        return ("display the order menu");
-                    }
-
+            }, new BasicMenuAction [] {
+                new BasicMenuAction ("display the order menu") {
                     public Boolean call () {
-                        Transaction transaction = new Transaction (kbdScanner);
-                        transaction.run ();
+                        new Transaction (db).run ();
                         return (true);
                     }
                 },
-                new MenuAction () {
-                    public String getName () {
-                        return ("exit");
-                    }
-
-                    public Boolean call () {
-                        return (Utilities.exitLoop (kbdScanner));
-                    }
-                }
+                exitAction (Prompt.kbdScanner),
             });
-        Utilities.printBordered (new String [] {
-                "THANK YOU FOR SHOPPING HERE"
-            });
+        printBordered (new String [] { "THANK YOU FOR SHOPPING HERE" });
     }
 }

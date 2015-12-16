@@ -1,117 +1,72 @@
 
-import com.andrewsoutar.cmp128.Utilities;
-import com.andrewsoutar.cmp128.Utilities.GenericScanner;
-import com.andrewsoutar.cmp128.Utilities.UnaryFunction;
+import        java.math.BigDecimal;
+import        java.text.NumberFormat;
+import        java.util.LinkedList;
+import        java.util.List;
+import static java.lang.String.format;
+
+import        com.andrewsoutar.cmp128.Utilities.BasicMenuAction;
+import static com.andrewsoutar.cmp128.Utilities.mainLoop;
+import static com.andrewsoutar.cmp128.Utilities.printBordered;
 
 public class Transaction {
-    private final static float TAX_RATE = 0.07F;
+    private final static BigDecimal TAX_RATE = new BigDecimal ("0.07");
+    private final static NumberFormat $$$ = NumberFormat.getCurrencyInstance ();
+    private final ProductDatabase db;
 
-    GenericScanner kbdScanner;
+    private BigDecimal subtotal = BigDecimal.ZERO;
+    private BigDecimal taxAmt = BigDecimal.ZERO;
 
-    Float subtotal = 0.0F;
-    Float taxAmt = 0.0F;
-    Float grandTotal;
+    public Transaction (ProductDatabase db) {
+        this.db = db;
+    }
 
-    public Transaction (GenericScanner kbdScanner) {
-        this.kbdScanner = kbdScanner;
-
-        while (true) {
-            Float itemTotal =
-                (kbdScanner.<Float, Float> prompt
-                 (Float.class, "Enter price",
-                  new UnaryFunction <Float, Float> () {
-                      public Float call (Float realPrice) {
-                          if (realPrice > 0) {
-                              return (realPrice);
-                          } else {
-                              return (null);
-                          }
-                      }
-                  })) *
-                (kbdScanner.<Integer, Integer> prompt
-                 (Integer.class, "Enter quantity",
-                  new UnaryFunction <Integer, Integer> () {
-                      public Integer call (Integer realQuantity) {
-                          if (realQuantity > 0) {
-                              return (realQuantity);
-                          } else {
-                              return (null);
-                          }
-                      }
-                  }));
-
-            subtotal += itemTotal;
-
-            taxAmt +=
-                (kbdScanner.<Float, String> prompt
-                 (String.class, "Enter T for taxable or N for non-taxable",
-                  new UnaryFunction <Float, String> () {
-                      public Float call (String response) {
-                          switch (response.toLowerCase ()) {
-                          case "t":
-                              return (itemTotal * TAX_RATE);
-                          case "n":
-                              return (new Float (0.0F));
-                          default:
-                              return (null);
-                          }
-                      }
-                  }));
-
-            if (kbdScanner.<Boolean, String> prompt
-                (String.class, "End order? [y/n]",
-                 new UnaryFunction <Boolean, String> () {
-                     public Boolean call (String response) {
-                         switch (response.toLowerCase ()) {
-                         case "y":
-                         case "yes":
-                             return (new Boolean (true));
-                         case "n":
-                         case "no":
-                             return (new Boolean (false));
-                         default:
-                             return (null);
-                         }
-                     }
-                 })) {
-                break;
-            }
-        }
-
-        grandTotal = subtotal + taxAmt;
+    private void add (Item item, int quantity) {
+        BigDecimal cost = item.price.multiply (new BigDecimal (quantity));
+        subtotal = subtotal.add (cost);
+        if (item.isTaxable ()) taxAmt = taxAmt.add (cost.multiply (TAX_RATE));
     }
 
     public void run () {
-        Utilities.printBordered (new String [] {
-                String.format ("Subtotal: %.2f", subtotal),
-                String.format ("Tax: %.2f", taxAmt),
-                String.format ("Grand total: %.2f", grandTotal)
+        mainLoop (Prompt.kbdScanner, null, new BasicMenuAction [] {
+                new BasicMenuAction ("process an item by PLU number") {
+                    public Boolean call () {
+                        Item item = Prompt.plu (db);
+                        System.out.println (item);
+                        add (item, Prompt.quantity ());
+                        return (Prompt.end ());
+                    }
+                },
+                new BasicMenuAction ("choose from a submenu of items") {
+                    public Boolean call () {
+                        List <Item> menu = new LinkedList <> ();
+                        for (Item i : db.items) if (i.plu == null) menu.add (i);
+                        add (Prompt.menuChoice (menu), Prompt.quantity ());
+                        return (Prompt.end ());
+                    }
+                },
+                new BasicMenuAction ("process an item manually") {
+                    public Boolean call () {
+                        add (new Item (Prompt.price ()), Prompt.quantity ());
+                        return (Prompt.end ());
+                    }
+                }
             });
 
-        Float balance;
+        BigDecimal total = subtotal.add (taxAmt);
+        printBordered (new String [] {
+                format ("Subtotal: %s", $$$.format (subtotal)),
+                format ("Tax: %s", $$$.format (taxAmt)),
+                format ("Total: %s", $$$.format (total)),
+            });
 
-        for (balance = grandTotal; !(balance < 0.01F);
-             balance -=
-                 kbdScanner.<Float, Float> prompt
-                 (Float.class, "Enter amount tendered",
-                  new UnaryFunction <Float, Float> () {
-                      public Float call (Float userInput) {
-                          if (userInput > 0.0F) {
-                              return (userInput);
-                          } else {
-                              return (null);
-                          }
-                      }
-                  })) {
-            Utilities.printBordered (new String [] {
-                    String.format ("Balance due: %.2f", balance)
-                });
+        for (; total.signum () == 1; total = total.subtract (Prompt.paid ())) {
+            System.out.format ("Balance due: %s%n", $$$.format (total));
         }
 
-        Utilities.printBordered (new String [] {
-                (balance < 0.0F)
-                ? String.format ("Change due: %.2f", -balance)
-                : "NO CHANGE DUE"
+        printBordered (new String [] {
+                total.signum () == 0 ? "NO CHANGE DUE"
+                : format ("Change due: %s", $$$.format (total.abs ()))
             });
     }
 }

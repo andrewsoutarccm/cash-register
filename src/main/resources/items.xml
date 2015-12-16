@@ -1,0 +1,131 @@
+<items>
+  <!-- Vegetables -->
+  <item>
+    <plu>3151</plu>
+    <name>Tomatoes, Vine-Ripened</name>
+    <price>1.99</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4061</plu>
+    <name>Lettuce, Iceburg</name>
+    <price>1.50</price>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4640</plu>
+    <name>Lettuce, Romaine</name>
+    <price>1.75</price>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4062</plu>
+    <name>Cucumber, Green</name>
+    <price>0.50</price>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4082</plu>
+    <name>Onion, Red</name>
+    <price>1.50</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4560</plu>
+    <name>Carrots, Baby</name>
+    <price>2.99</price>
+    <unit>package</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4563</plu>
+    <name>Carrots, Sticks</name>
+    <price>1.25</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4576</plu>
+    <name>Celery, Sticks</name>
+    <price>0.99</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4742</plu>
+    <name>Radish, Red</name>
+    <price>1.29</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <plu>4554</plu>
+    <name>Cabbage, Red</name>
+    <price>1.99</price>
+    <taxable>false</taxable>
+  </item>
+
+  <!-- Fruits -->
+  <item>
+    <name>Apples, Macintosh</name>
+    <price>1.99</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Apples, Granny Smith</name>
+    <price>1.50</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Oranges, Sunkist</name>
+    <price>2.19</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Oranges, Navel</name>
+    <price>1.79</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Tangerines</name>
+    <price>1.99</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Grapes, Green, Seedless</name>
+    <price>2.99</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Grapes, Red, Seedless</name>
+    <price>3.99</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Bananas</name>
+    <price>0.59</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Peaches</name>
+    <price>2.59</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+  <item>
+    <name>Plums</name>
+    <price>2.19</price>
+    <unit>lb.</unit>
+    <taxable>false</taxable>
+  </item>
+</items>
